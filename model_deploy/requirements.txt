@@ -1,0 +1,6 @@
+flask
+gunicorn
+transformers 
+tensorflow==2.16.0rc0
+# torch
+tf-keras==2.16.0rc2

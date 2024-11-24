@@ -1,0 +1,35 @@
+# trying to keep docker container minimal
+FROM python:slim
+
+WORKDIR /app
+
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
+
+COPY . .
+
+# Expose the port gunicorn will run on
+EXPOSE 8000
+
+# Run gunicorn on port 8000 to allow outside communication
+# Also remember to run docker image with publish container port 8000 "docker run -p 8000:8000 <docker image name/id>"
+CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:8000", "app:app"]
+
+# #################################################### GPU VARIANT ####################################################
+# # OR BUILD WITH GPU SUPPORT
+# FROM nvidia/cuda:12.3.0-base-ubuntu22.04
+
+# WORKDIR /app
+
+# COPY requirements.txt requirements.txt
+
+# RUN apt update -y &&\
+#     apt install python3 -y &&\
+#     apt install python3-pip -y &&\
+#     pip install -r requirements.txt
+
+# COPY . .
+
+# EXPOSE 8000
+
+# CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:8000", "app:app"]
