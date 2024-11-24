@@ -1,0 +1,34 @@
+version: '3'
+services:
+  # Pull direct from my docker Hub Repo CPU Minimal Variant
+  model_doc_hub:
+    image: dhruv961211/lemay:distilbert_model_deploy_img_dochub
+    ports:
+      - "8000:8000"
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            count: all
+            capabilities: [gpu]
+    container_name: distilbert_model_deploy_container
+
+  # OR Comment above Section and uncomment below to build image from local
+
+  # model_local:
+  #   build:
+  #     context: model_deploy/
+  #     dockerfile: Dockerfile
+  #   image: distilbert_model_deploy_img:1.0
+  #   ports:
+  #     - "8000:8000"
+  #   # Remeber to uncomment GPU Variant in source dockerfile.!
+  #   deploy: # --gpus delpoy section only executed during running container with "docker compose up" **NO DASH 
+  #     resources:
+  #       reservations:
+  #         devices:
+  #         - driver: nvidia
+  #           count: all
+  #           capabilities: [gpu]
+  #   container_name: distilbert_model_deploy_container
